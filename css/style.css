@@ -1,0 +1,616 @@
+@charset "utf-8";
+
+
+/*Font Awesomeの読み込み
+---------------------------------------------------------------------------*/
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css");
+
+
+/*Google Fontsの読み込み
+---------------------------------------------------------------------------*/
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+
+
+/*テンプレート専用cssファイルの読み込み
+---------------------------------------------------------------------------*/
+@import url("slide.css");
+@import url("inview.css");
+
+
+
+/*opa1のキーフレーム設定（汎用的）
+---------------------------------------------------------------------------*/
+@keyframes opa1 {
+	0% {opacity: 0;}
+	100% {opacity: 1;}
+}
+
+
+/*テキストのフェードイン設定
+---------------------------------------------------------------------------*/
+/*アニメーション設定*/
+@keyframes fadeIn {
+	0% {opacity: 0;transform: scale(0.1) rotate(-30deg);}
+	100% {opacity: 1;transform: scale(1) rotate(0deg);}
+}
+
+/* 初期状態でテキストを非表示にする */
+.fade-in-text {
+    visibility: hidden;
+}
+
+/* アニメーションを適用するクラス。
+animationの行の「0.2s」が文字の出現のなめらかさで、大きいほどなめらかに出てきます。小さいとタイピングのようにカクカク出ます。
+１文字ずつの出現する際の時差は、js/main.jsの「テキストのフェードイン効果」の中にある「0.1」で調整できます。*/
+.char {
+    display: inline-block;
+    opacity: 0;
+    animation: fadeIn 0.2s linear both;
+}
+
+
+/*全体の設定
+---------------------------------------------------------------------------*/
+body * {box-sizing: border-box;}
+
+html,body {
+	font-size: 15px;	/*基準となるフォントサイズ*/
+}
+
+body {
+	margin: 0;padding:0;
+	font-family: "Noto Sans JP", "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Meiryo, "メイリオ", "Osaka", "MS PGothic", "ＭＳ Ｐゴシック", sans-serif;	/*フォント種類（ゴシック）*/
+	-webkit-text-size-adjust: none;
+	background: #afeeee;	/*背景色*/
+	color: #000000;		/*文字色*/
+	line-height: 2;		/*行間*/
+	overflow-x: hidden;
+}
+
+/*大きな端末で見た際の背景画像*/
+body::before {
+	content: "";
+	background: url("../images/background.png");
+	position: fixed;
+	width: 100%;
+	height: 100%;
+}
+
+	/*画面幅800px以上の追加指定*/
+	@media screen and (min-width:900px) {
+
+	body {
+		overflow-x: auto;
+	}
+
+	}/*追加指定ここまで*/
+
+
+/*リセット他*/
+figure {margin: 0;}
+dd {margin: 0;}
+nav ul {list-style: none;}
+nav,ul,li,ol {margin: 0;padding: 0;}
+section li {margin-left: 1rem;}
+
+/*table全般の設定*/
+table {border-collapse:collapse;}
+
+/*画像全般の設定*/
+img {border: none;max-width: 100%;height: auto;vertical-align: middle;}
+
+/*videoタグ*/
+video {max-width: 100%;}
+
+/*iframeタグ*/
+iframe {width: 100%;}
+
+/*input*/
+input {font-size: 1rem;}
+
+/*section*/
+section {
+	margin: 30px 0;
+}
+
+
+/*リンクテキスト全般の設定
+---------------------------------------------------------------------------*/
+a {
+	color: inherit;
+	transition: 0.3s;	/*hoverまでにかける時間。0.3秒。*/
+}
+
+/*マウスオン時*/
+a:hover {
+	text-decoration: none;	/*下線を消す*/
+	opacity: 0.9;			/*色を90%だけ出す*/
+}
+
+
+/*container（サイト全体を囲むボックス）
+---------------------------------------------------------------------------*/
+#container {
+	background: #afeeee;    /*背景色*/
+	overflow-x: hidden;
+	position: relative;
+}
+
+	/*画面幅600px以上の追加指定*/
+	@media screen and (min-width:350px) {
+
+	#container {
+		overflow-x: visible;
+		width: 350px;    /*コンテナーの幅*/
+		margin: 0 auto;
+		margin-top:65px
+	}
+
+	}/*追加指定ここまで*/
+
+	@media screen and (min-width:600px) {
+
+	#container {
+		overflow-x: visible;
+		width: 600px;    /*コンテナーの幅*/
+		margin: 0 auto;
+		margin-top:65px
+	}
+
+	}/*追加指定ここまで*/
+
+
+/*ヘッダー
+---------------------------------------------------------------------------*/
+header {
+    padding:20px 20px 0;    /*上、左右、下へのヘッダー内の余白*/
+}
+
+	/*画面幅500px以上の追加指定*/
+	@media screen and (min-width:500px) {
+
+	header {
+		padding: 20px 50px 0;    /*上、左右、下へのヘッダー内の余白*/
+	}
+
+	}/*追加指定ここまで*/
+
+
+/*ロゴ画像*/
+#logo img {display: block;}
+#logo {
+	margin: 0 auto 20px;    /*最後の「20px」はロゴとスライドショー画像との間の余白設定箇所です*/
+	width: 200px;    /*画像の幅*/
+}
+
+
+/*スライドショー
+---------------------------------------------------------------------------*/
+/*スライドショー全体を囲むブロック*/
+.mainimg {
+    position: relative;
+	margin-bottom: 50px;	/*ボックスの下に空けるスペース。*/
+}
+
+/*３枚の画像の共通設定*/
+.mainimg .slide {
+	position: absolute;right: 0px;top: 0px;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	transition: opacity 1s;	/*ここの1s（＝1秒）を変更すると、フェードのスピードを変更できます。１枚が表示される時間はjsで指定できます。*/
+}
+
+/*１枚目画像（変更不要）*/
+.mainimg .slide:first-child {
+	position: relative;width: 100%;height: auto;
+}
+
+/*画像全般（変更不要）*/
+.mainimg .slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 画像をコンテナのサイズに合わせてクリップ */
+    object-position: center; /* 画像の中心を基準に調整 */
+	border-radius: 20px;    /*角を丸くする指定*/
+}
+
+/*現在表示されているスライドのみをクリック可能にする設定（変更不要）
+---------------------------------------------------------------------------*/
+.mainimg .slide {
+	pointer-events: none; /* デフォルトでクリックを無効にする */
+}
+
+.mainimg .slide.active {
+    pointer-events: auto; /* 表示中のスライドのみクリックを有効にする */
+}
+
+/*現在表示中のボタン
+---------------------------------------------------------------------------*/
+/*全体*/
+.mainimg .slide-indicators {
+    text-align: center;
+	position: absolute;
+	width: 100%;
+	bottom: -40px;	/*ボタンの配置場所。0以上の数値にすれば画像の上に重なります。*/
+	left: 0px;
+}
+/*１個あたり*/
+.mainimg .indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: #696969;	/*非アクティブ時のボタン色*/
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.mainimg .indicator.active {
+    background: #66cdaa;	/*アクティブ時のボタン色*/
+}
+
+
+/*main
+---------------------------------------------------------------------------*/
+main {
+    padding: 20px 10px;
+}
+
+	/*画面幅500px以上の追加指定*/
+	@media screen and (min-width:500px) {
+
+	main {
+		padding: 20px 50px;
+	}
+
+	}/*追加指定ここまで*/
+
+
+main h2 {
+	margin: 0;padding: 0;
+}
+
+
+/*見出し冒頭の数字
+---------------------------------------------------------------------------*/
+.number {
+	font-size: 2.4rem;				/*文字サイズ。240%に。*/
+	margin-right: 1rem;				/*右側に１文字分のスペースを空ける。*/
+}
+
+
+/*目次
+---------------------------------------------------------------------------*/
+#mokuji {
+    background: rgba(162, 209, 136, 0.6);	/*背景色。0,0,0は黒のことで0.4は色が40%出た状態。*/
+    padding: 50px 50px 50px 100px;	/*上、右、下、左へのボックス内の余白*/
+	transform: translateX(-100px);	/*現在地より左に100px移動させる*/
+}
+
+	/*画面幅500px以上の追加指定*/
+	@media screen and (min-width:500px) {
+
+	#mokuji {
+		width: 100%;
+        font-size: 1.2rem;	/*文字サイズを120%に*/
+	}
+
+	}/*追加指定ここまで*/
+
+
+#mokuji h2 {
+	margin-bottom: 1rem;
+}
+
+#mokuji li {
+	line-height: 1.5;
+	margin-left: 2rem;
+}
+
+
+/*PC向けメニュー
+---------------------------------------------------------------------------*/
+
+	/*画面幅1300px以下の追加指定*/
+	@media screen and (max-width:1300px) {
+
+	/*メニューブロック全体*/
+	#menu {
+        display: none;	/*メニューが切れるので非表示に*/
+	}
+
+	}/*追加指定ここまで*/
+
+
+/*メニュー１個あたり*/
+#menu a {
+    display: block;text-decoration: none;
+    background: rgba(250, 224, 148, 0.7);	/*背景色。0,0,0は黒のことで、0.7は色が70%出た状態。*/
+    padding: 5px 30px;	/*ボタン内の余白。上下、左右へ。*/
+}
+#menu li {
+    position: fixed;	/*スクロールしても移動させない指示*/
+    font-size: 1.2rem;	/*文字サイズ120%*/
+}
+
+/*1つ目のメニュー（1. 施術メニュー）*/
+#menu li:nth-of-type(1) {
+    bottom: 300px;	/*下からの配置場所。お好みで。*/
+    left: 50px;		/*左からの配置場所。お好みで。*/
+}
+
+/*2つ目のメニュー（1. 施術メニュー）*/
+#menu li:nth-of-type(2) {
+    bottom: 200px;	/*下からの配置場所。お好みで。*/
+    left: 80px;		/*左からの配置場所。お好みで。*/
+}
+
+/*3つ目のメニュー（1. 施術メニュー）*/
+#menu li:nth-of-type(3) {
+    bottom: 350px;	/*下からの配置場所。お好みで。*/
+    right: 50px;	/*右からの配置場所。お好みで。*/
+}
+
+/*4つ目のメニュー（1. 施術メニュー）*/
+#menu li:nth-of-type(4) {
+    bottom: 250px;	/*下からの配置場所。お好みで。*/
+    right: 70px;	/*右からの配置場所。お好みで。*/
+}
+
+/*5つ目のメニュー（1. 施術メニュー）*/
+#menu li:nth-of-type(5) {
+    bottom: 150px;	/*下からの配置場所。お好みで。*/
+    right: 110px;	/*右からの配置場所。お好みで。*/
+}
+
+/*マウスオン時*/
+#menu a:hover {
+    opacity: 1;	/*冒頭で透明度を90%にする指示があるのでそれをリセット*/
+    background: #696969;	/*背景色を白に*/
+	color: #66cdaa;
+}
+
+
+/*section1（1.施術メニュー）
+---------------------------------------------------------------------------*/
+#section1 {
+    background: rgba(255, 255, 255, 0.6);	/*背景色。0,0,0は黒のことで0.4は色が40%出た状態。*/
+	padding: 30px;	/*ボックス内の余白*/
+
+}
+
+/*section1内のh2見出し*/
+#section1 h2 {
+	margin-left: 30px;	/*左に空けるスペース*/
+}
+
+	@media screen and (min-width:600px) {
+
+	#section1 {
+		overflow-x: visible;
+		width: 600px;    /*コンテナーの幅*/
+		margin: 0 auto;
+		margin-top:65px
+	}
+
+	}/*追加指定ここまで*/
+
+
+
+/*section2（2.料金）
+---------------------------------------------------------------------------*/
+#section2 {
+    background: rgba(162, 209, 136, 0.6);	/*背景色。0,0,0は黒のことで0.4は色が40%出た状態。*/
+	padding: 50px 50px 50px 100px;	/*上、右、下、左へのボックス内の余白*/
+	width: calc(100% + 100px);		/*実際の幅に100px追加する*/
+	transform: translateX(-100px);	/*本来の場所より左に100px移動させる*/
+}
+
+
+/*料金（section2で使用）
+---------------------------------------------------------------------------*/
+/*料金ブロック全体*/
+.price {
+	margin-left: 50px;	/*左に空けるスペース*/
+	display: flex;
+	flex-wrap: wrap;
+}
+
+/*コース名*/
+.price dt {
+	width: 60%;	/*幅*/
+    padding-bottom: 1rem;	/*下に１文字分のスペースを空ける*/
+}
+
+/*金額*/
+.price dd {
+	width: 40%;				/*幅*/
+	text-align: right;		/*金額を右寄せ*/
+    padding-bottom: 1rem;	/*下に１文字分のスペースを空ける*/
+}
+
+
+/*section3（3.施設・スタッフ紹介）
+---------------------------------------------------------------------------*/
+#section3 {
+	background: rgba(255, 255, 255, 0.6);
+    padding:50px 0;	/*ボックス内の余白。上下、左右への順番。*/
+}
+
+/*section3内のh2見出し*/
+#section3 h2 {
+	margin-left: 30px;
+
+}
+
+	@media screen and (min-width:600px) {
+
+	#section3 {
+		overflow-x: visible;
+		width: 600px;    /*コンテナーの幅*/
+		margin: 0 auto;
+		margin-top:65px
+	}
+
+}
+
+
+/*section4（4.よくあるご質問）
+---------------------------------------------------------------------------*/
+#section4 {
+    background: rgba(162, 209, 136, 0.6);	/*背景色。0,0,0は黒のことで0.4は色が40%出た状態。*/
+    padding: 20px;	/*ボックス内の余白*/
+}
+
+	/*画面幅500px以上の追加指定*/
+	@media screen and (min-width:500px) {
+
+	#section4 {
+		padding: 20px 50px;	/*ボックス内の余白。上下、左右へ。*/
+	}
+
+	}/*追加指定ここまで*/
+
+
+/*FAQブロック
+---------------------------------------------------------------------------*/
+/*質問、回答の共通設定*/
+.faq dt,.faq dd {
+	text-indent: -2rem;
+	padding: 0.5rem 1em 0.5rem 3em;
+}
+
+/*質問の設定*/
+.faq dd {
+    margin-bottom: 1.5rem;	/*下に1.5文字分空ける*/
+}
+
+/*「Q」アイコン*/
+.faq dt::before {
+	font-family: "Font Awesome 6 Free";
+    content: "\51";	/*「Q」アイコンの指示*/
+	padding-right: 1rem;	/*アイコンの右側に空けるスペース*/
+}
+
+/*「A」アイコン*/
+.faq dd::before {
+	font-family: "Font Awesome 6 Free";
+    content: "\41";	/*「A」アイコンの指示*/
+	padding-right: 1rem;	/*アイコンの右側に空けるスペース*/
+}
+
+
+/*section5（5.場所）
+---------------------------------------------------------------------------*/
+/*GoogleMapの埋め込み*/
+#section5 iframe {
+	width: 100%;
+	height: 500px;	/*マップの高さ*/
+}
+
+
+/*フッター設定（コピーライト部分）
+---------------------------------------------------------------------------*/
+footer small {
+    font-size: 100%;
+    padding: 20px;
+    display: block;
+}
+footer {
+	text-align: center;		/*内容をセンタリング*/
+}
+
+/*リンクテキスト*/
+footer a {color: inherit;text-decoration: none;}
+
+
+/*著作部分（※意図的に見えなくしたりしないで下さい。規約違反になります。）*/
+.pr a {
+	text-decoration: none;
+	display: block;
+	background: #8ed6d6;
+	text-align: right;
+	padding: 0.5rem 0.5rem;
+	color: #0000000;
+}
+.pr a::before {
+	font-family: "Font Awesome 5 Free";
+	content: "\e2ca";
+	font-weight: bold;
+	margin-right: 0.5em;
+}
+
+/*フッター内のSNSアイコン
+---------------------------------------------------------------------------*/
+.icons {
+    margin: 0;padding: 0;list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 30px;	/*アイコン間の余白*/
+}
+
+/*アイコンの幅（img要素を使う場合）*/
+.icons img {
+    width: 80px;
+}
+
+/*アイコンの幅（FontAwesomeを使う場合）*/
+.icons i {
+	font-size: 30px;	/*アイコンサイズ*/
+}
+
+
+/*マニュアルページ用
+---------------------------------------------------------------------------*/
+.manual {
+	background: #fff;
+	color: #333;
+	padding: 5vw;
+	position: relative;z-index: 1;
+}
+.manual pre.look {display: block;}
+.manual .look {background: #eee;}
+.manual h2 {
+	margin-top: 2rem;
+	font-size: 2rem;
+	text-align: center;
+}
+.manual h3 {
+	line-height: 2;
+	display: inline-block;
+	background: linear-gradient(transparent 60%, yellow);
+}
+.manual h3 span {
+	background: linear-gradient(transparent 60%, yellow);
+}
+.manual h3 + p {margin-top: -0.5rem;}
+
+
+/*その他
+---------------------------------------------------------------------------*/
+.clearfix::after {content: "";display: block;clear: both;}
+.color-check, .color-check a {color: #ff0000 !important;}
+.l {text-align: left !important;}
+.c {text-align: center !important;}
+.r {text-align: right !important;}
+.ws {width: 95%;display: block;}
+.wl {width: 95%;display: block;}
+.mb0 {margin-bottom: 0px !important;}
+.mb30 {margin-bottom: 30px !important;}
+.look {line-height: 1.5 !important; display: inline-block;padding: 5px 10px;background: rgba(0,0,0,0.1);border: 1px solid rgba(0,0,0,0.3);border-radius: 3px;margin: 5px 0; word-break: break-all;}
+.small {font-size: 0.75em;}
+.large {font-size: 2em; letter-spacing: 0.1em;}
+.pc {display: none;}
+.dn {display: none !important;}
+.block {display: block !important;}
+.bg1 {background: #f0f0f0;}
+pre {white-space: pre-wrap;word-wrap: break-word;overflow-wrap: break-word;}
+
+	/*画面幅900px以上の追加指定*/
+	@media screen and (min-width:900px) {
+
+	.ws {width: 48%;display: inline;}
+	.sh {display: none;}
+	.pc {display: block;}
+
+	}/*追加指定ここまで*/
