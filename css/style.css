@@ -307,6 +307,46 @@ main h2 {
 	margin-left: 2rem;
 }
 
+/*CODErazeボタン
+---------------------------------------------------------------------------*/
+.coderaze-button {
+    display: block;
+    width: 200px;
+    margin: 30px auto;
+    padding: 15px 30px;
+    background: rgba(240, 240, 240, 0.9);
+    border: 1px solid #696969;
+    border-radius: 20px;
+    color: #333333;
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.coderaze-button:hover {
+    background: #696969;
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.coderaze-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/*画面幅500px以上の追加指定*/
+@media screen and (min-width: 500px) {
+    .coderaze-button {
+        width: 250px;
+        font-size: 1.4rem;
+        padding: 18px 35px;
+    }
+} /*追加指定ここまで*/
+
 
 /*PC向けメニュー
 ---------------------------------------------------------------------------*/
